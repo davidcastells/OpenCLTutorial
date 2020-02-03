@@ -2,8 +2,6 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
-    </df>
-    <df root="." name="1">
       <in>Bitmap.cpp</in>
       <in>EmbeddedImage.cpp</in>
       <in>FPGAInterface.cpp</in>
@@ -32,7 +30,8 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0"
+        <element flagsID="0" commonFlags="-O2"/>
+        <element flagsID="1"
                  commonFlags="-mtune=generic -march=x86-64 -O2 -fstack-protector-strong"/>
       </flagsDictionary>
       <codeAssistance>
@@ -50,14 +49,14 @@
         </preBuild>
       </makefileType>
       <item path="Bitmap.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
       </item>
       <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>.</pElem>
           </incDir>
@@ -66,14 +65,15 @@
       <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
           <incDir>
-            <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
-            <pElem>.</pElem>
             <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
         </ccTool>
       </item>
       <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
           <incDir>
             <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
             <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
@@ -81,18 +81,24 @@
           </incDir>
         </ccTool>
       </item>
-      <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
+      <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
           <incDir>
-            <pElem>.</pElem>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
         </ccTool>
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
           <incDir>
-            <pElem>.</pElem>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
         </ccTool>
       </item>
     </conf>
