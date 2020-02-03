@@ -2,6 +2,14 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu" name="0">
+      <in>Bitmap.cpp</in>
+      <in>Bitmap.h</in>
+      <in>EmbeddedImage.cpp</in>
+      <in>EmbeddedImage.h</in>
+      <in>FPGAInterface.cpp</in>
+      <in>FPGAInterface.h</in>
+      <in>Image.h</in>
+      <in>main.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -37,6 +45,22 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Bitmap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Bitmap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EmbeddedImage.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FPGAInterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Image.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

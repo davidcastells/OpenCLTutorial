@@ -6,7 +6,7 @@ FPGA_OCL_CFLAGS := $(shell aocl compile-config)
 FPGA_OCL_LFLAGS := $(shell aocl link-config)
 
 EXEC = test_contrast
-SOURCES = main.cpp OpenCLUtils.cpp 
+SOURCES = main.cpp OpenCLUtils.cpp Bitmap.cpp EmbeddedImage.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
