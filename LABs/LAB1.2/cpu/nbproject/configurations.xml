@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <df root="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu" name="0">
+    <df root="." name="0">
+    </df>
+    <df root="." name="1">
       <in>Bitmap.cpp</in>
-      <in>Bitmap.h</in>
       <in>EmbeddedImage.cpp</in>
-      <in>EmbeddedImage.h</in>
       <in>FPGAInterface.cpp</in>
-      <in>FPGAInterface.h</in>
-      <in>Image.h</in>
+      <in>OpenCLUtils.cpp</in>
+      <in>PerformanceLap.cpp</in>
       <in>main.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu/Makefile</itemPath>
-      <itemPath>C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu/nbproject/private/launcher.properties</itemPath>
+      <itemPath>Makefile</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
-    <Elem>C:\Projects\Uab\INT_2020_CAPAPH_Tutorial\LABs\LAB1.2\cpu</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
-  <projectmakefile>C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu/Makefile</projectmakefile>
+  <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Default" type="0">
       <toolsSet>
@@ -31,11 +31,15 @@
         <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0"
+                 commonFlags="-mtune=generic -march=x86-64 -O2 -fstack-protector-strong"/>
+      </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
       <makefileType>
         <makeTool>
-          <buildCommandWorkingDir>C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/cpu</buildCommandWorkingDir>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
@@ -45,21 +49,51 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Bitmap.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Bitmap.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
       </item>
-      <item path="Bitmap.h" ex="false" tool="3" flavor2="0">
+      <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
       </item>
-      <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
+            <pElem>.</pElem>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
+          </incDir>
+        </ccTool>
       </item>
-      <item path="EmbeddedImage.h" ex="false" tool="3" flavor2="0">
+      <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
       </item>
-      <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="0">
+      <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
       </item>
-      <item path="FPGAInterface.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Image.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="main.cpp" ex="false" tool="1" flavor2="4">
+        <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
       </item>
     </conf>
   </confs>
