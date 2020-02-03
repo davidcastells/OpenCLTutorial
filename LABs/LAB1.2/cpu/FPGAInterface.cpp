@@ -41,8 +41,10 @@
  */
 
 #include "FPGAInterface.h"
+#include "PerformanceLap.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -103,42 +105,42 @@ void FPGAInterface::initOpenCL()
     {
         //printAllEnv();
 
-        if(!setCwdToExeDir()) 
-        {
-            if (m_verbose)
-                cout << "[OCLFPGA] ### ERROR ### Failed to change dir" << endl;
-            return;
-        }
-
-        m_platform = selectPlatform(spi);
-
+    if(!setCwdToExeDir()) 
+    {
         if (m_verbose)
-            cout << "[*] Platform Selected [OK] " << endl;
-        m_deviceId = selectDevice(m_platform, sdi);
-        
-        if (m_verbose)
-            cout << "[*] Device Selected [OK] " << endl;
+            cout << "[OCLFPGA] ### ERROR ### Failed to change dir" << endl;
+        return;
+    }
+
+    m_platform = selectPlatform(spi);
+
+    if (m_verbose)
+        cout << "[*] Platform Selected [OK] " << endl;
+    m_deviceId = selectDevice(m_platform, sdi);
+
+    if (m_verbose)
+        cout << "[*] Device Selected [OK] " << endl;
 
 
-        m_context = createContext(m_platform, m_deviceId);
+    m_context = createContext(m_platform, m_deviceId);
 
-        if (m_verbose)
-            cout << "[*] Context Created [OK] " << endl;
+    if (m_verbose)
+        cout << "[*] Context Created [OK] " << endl;
 
-        m_queue = createQueue(m_deviceId, m_context, 0);
+    m_queue = createQueue(m_deviceId, m_context, 0);
 
-        if (m_verbose)
-            cout << "[*] Queue Created [OK] " << endl;
+    if (m_verbose)
+        cout << "[*] Queue Created [OK] " << endl;
 
-        m_queue2 = createQueue(m_deviceId, m_context, 0);
+    m_queue2 = createQueue(m_deviceId, m_context, 0);
 
-        if (m_verbose)
-            cout << "[*] Queue 2 Created [OK] " << endl;
+    if (m_verbose)
+        cout << "[*] Queue 2 Created [OK] " << endl;
 
-        m_openCLFilesPath = ".";
-        
-        if (m_verbose)
-            cout << "Default Path=  " << m_openCLFilesPath << endl;
+    m_openCLFilesPath = ".";
+
+    if (m_verbose)
+        cout << "Default Path=  " << m_openCLFilesPath << endl;
         
 //        printf("env %p obj %p jstr %p\n", env, obj, jstr);
         
@@ -152,7 +154,7 @@ void FPGAInterface::initOpenCL()
 //        }
 
 
-        initKernels(ct, pi, di, cq, openCLFilesPath);
+    initKernels();
 
         if (m_verbose)
         {
@@ -176,24 +178,20 @@ void FPGAInterface::initOpenCL()
 }
 
 
-void FPGAInterface::initKernels(cl_context context, 
-        cl_platform_id platform, 
-        cl_device_id device, 
-        cl_command_queue cq,  
-        string openCLFilesPath)
+void FPGAInterface::initKernels()
 {
+    cl_int ret;
        
-        if (m_verbose)
-        {
-            printf("Reading Kernel files\n");
-            printf("Initial numLimbs = %d\n", BigIntegerArrayFPGA::m_numLimbs);
-        }
+    if (m_verbose)
+    {
+        printf("Reading Kernel files\n");
+    }
 
-        string platformName = getPlatformName(platform);
+    string platformName = getPlatformName(m_platform);
         
-        printf("[OCLFPGA] Platform Name = %s\n", platformName.c_str());
+    printf("[OCLFPGA] Platform Name = %s\n", platformName.c_str());
 
-        cl_program program;
+    cl_program program;
                 
         //if (platformName.find("NVIDIA") == string::npos)
 //        if (1 < 2)
@@ -273,7 +271,7 @@ void FPGAInterface::initKernels(cl_context context,
 
             int kernelCount = 0;
             
-            std::string fullPath  = openCLFilesPath.c_str() + std::string("/big_integer.aocx");
+            std::string fullPath  = m_openCLFilesPath.c_str() + std::string("/contrast.aocx");
             
             //std::string fullPath = openCLFilesPath.c_str() + std::string("/multMod.aocx");
 
@@ -281,9 +279,9 @@ void FPGAInterface::initKernels(cl_context context,
             
             //string binaryPath = openCLFilesPath + string("/") + string("/multMod");
 
-            setCwd(openCLFilesPath.c_str());
+            setCwd(m_openCLFilesPath.c_str());
             
-            system("pwd");
+            int sysret = system("pwd");
             
             //std::string binaryPath = getBoardBinaryFile("big_integer", device);
             
@@ -302,7 +300,7 @@ void FPGAInterface::initKernels(cl_context context,
             
             printf("Create Program From Binary...\n");
             
-            program = createProgramFromBinary(context, fullPath.c_str(), &device, 1); 
+            program = createProgramFromBinary(m_context, fullPath.c_str(), &m_deviceId, 1); 
 
             printf("[OK]\n");
             
@@ -310,7 +308,7 @@ void FPGAInterface::initKernels(cl_context context,
             fflush(stdout);
             
             //ret = clBuildProgram(program, 1, &device, "-g -s", NULL, NULL);   // in Windows
-            ret = clBuildProgram(program, 1, &device, NULL, NULL, NULL);
+            ret = clBuildProgram(program, 1, &m_deviceId, NULL, NULL, NULL);
 
             printf("[OK]\n");
             fflush(stdout);
@@ -323,13 +321,13 @@ void FPGAInterface::initKernels(cl_context context,
             {
                 // Determine the size of the log
                 size_t log_size;
-                clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
+                clGetProgramBuildInfo(program, m_deviceId, CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
 
                 // Allocate memory for the log
                 char *log = (char *) malloc(log_size);
 
                 // Get the log
-                clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
+                clGetProgramBuildInfo(program, m_deviceId, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 
                 // Print the log
                 printf("%s\n", log);
@@ -352,84 +350,50 @@ void FPGAInterface::initKernels(cl_context context,
         fflush(stdout);
         
 	//string allCode = m_addSourceCode + "\n" + m_mulSourceCode;
-
         
-//	m_addKernel = clCreateKernel(program, "addNumbers", &ret);
-//	SAMPLE_CHECK_ERRORS(ret);
-//        
-//        if (verbose)
-//            cout << "addNumbers Kernel [OK]" << endl;
-//
-//	m_mulKernel = clCreateKernel(program, "mulNumbers", &ret);
-//	SAMPLE_CHECK_ERRORS(ret);
-//    
-//        if (verbose)
-//            cout << "mulNumbers Kernel [OK]" << endl;
-//
-//        m_divKernel = clCreateKernel(program, "divNumbers", &ret);
-//	SAMPLE_CHECK_ERRORS(ret);
-//        
-//        if (verbose)
-//            cout << "divNumbers Kernel [OK]" << endl;
-//        
-
-#ifdef USE_KERNEL_MULT_MOD
-        m_mulModKernel = clCreateKernel(program, "multModNumbers", &ret);
+	m_contrastKernel = clCreateKernel(program, "contrast", &ret);
 	SAMPLE_CHECK_ERRORS(ret);
 
-        if (verbose)
-            cout << "multModNumbers Kernel [OK]" << endl;
-#endif
+    m_memOutV = clCreateBuffer(m_context, CL_MEM_READ_WRITE, 1*sizeof(int), NULL, &ret);
+    SAMPLE_CHECK_ERRORS(ret);
         
-#ifdef USE_KERNEL_POW_MOD        
-        m_powModKernel = clCreateKernel(program, "powModNumbers", &ret);
-	SAMPLE_CHECK_ERRORS(ret);
+    fflush(stderr);
+    fflush(stdout);
 
-        if (verbose)
-            printf("powModNumbers Kernel [OK]\n");
-        
-//        m_powModMontKernel = clCreateKernel(program, "powModMontNumbers", &ret);
-//	SAMPLE_CHECK_ERRORS(ret);
-//
-//        if (verbose)
-//            cout << "powModMontNumbers Kernel [OK}" << endl;
-#endif
-        
-        fflush(stderr);
-        fflush(stdout);
-        
-	m_cq = cq;
-        
-        if (verbose)
-        {
-            cout << " Arg numLimbs = " << to_string(numLimbs) << endl;
-            cout << " Final numLimbs = " << to_string(BigIntegerArrayFPGA::m_numLimbs) << endl;
-            cout << " Final Count = " << to_string(BigIntegerArrayFPGA::m_numCount) << endl;
-        }
+
 }
 
-void BigIntegerArrayFPGA::finalizeKernels()
+void FPGAInterface::contrast(int* v)
 {
+    cl_int ret;
+    
+    ret = clSetKernelArg(m_contrastKernel, 0, sizeof(cl_int), (void *)v);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clSetKernelArg(m_contrastKernel, 1, sizeof(cl_mem), (void *)&m_memOutV);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    // send the events to the FPGA
+    size_t wgSize[3] = {1, 1, 1};
+    size_t gSize[3] = {1, 1, 1};
+
+    ret = clEnqueueNDRangeKernel(m_queue, m_contrastKernel, 1, NULL, gSize, wgSize, 0, NULL, NULL);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clEnqueueReadBuffer(m_queue, m_memOutV, CL_TRUE, 0, 1*sizeof(int), v, 0, NULL, NULL);
+    SAMPLE_CHECK_ERRORS(ret);
+}
+
+void FPGAInterface::finalizeKernels()
+{
+    cl_int ret;
+    
+    ret = clReleaseMemObject(m_memOutV);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clReleaseKernel(m_contrastKernel);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    
 	
-	cl_int ret;
-        ret = clReleaseKernel(m_powModKernel);
-	SAMPLE_CHECK_ERRORS(ret);
-        ret = clReleaseKernel(m_mulModKernel);
-	SAMPLE_CHECK_ERRORS(ret);
-        ret = clReleaseKernel(m_divKernel);
-	SAMPLE_CHECK_ERRORS(ret);
-        ret = clReleaseKernel(m_mulKernel);
-	SAMPLE_CHECK_ERRORS(ret);
-	ret = clReleaseKernel(m_addKernel);
-	SAMPLE_CHECK_ERRORS(ret);
-	ret = clReleaseMemObject(m_memA);
-	SAMPLE_CHECK_ERRORS(ret);
-	ret = clReleaseMemObject(m_memB);
-	SAMPLE_CHECK_ERRORS(ret);
-        ret = clReleaseMemObject(m_memC);
-	SAMPLE_CHECK_ERRORS(ret);
-	ret = clReleaseMemObject(m_memQ);
-	SAMPLE_CHECK_ERRORS(ret);
-        ret = clReleaseMemObject(m_memR);
-	SAMPLE_CHECK_ERRORS(ret);
 }
