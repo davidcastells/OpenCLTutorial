@@ -271,7 +271,7 @@ void FPGAInterface::initKernels()
 
             int kernelCount = 0;
             
-            std::string fullPath  = m_openCLFilesPath.c_str() + std::string("/contrast.aocx");
+            std::string fullPath  = m_openCLFilesPath.c_str() + std::string("/../fpga/contrast.aocx");
             
             //std::string fullPath = openCLFilesPath.c_str() + std::string("/multMod.aocx");
 
