@@ -18,6 +18,7 @@
 #include "EmbeddedImage.h"
 #include "Bitmap.h"
 #include "FPGAInterface.h"
+#include "PerformanceLap.h"
 
 bool gOriginal = false;
 bool gContrast = false;
@@ -75,6 +76,9 @@ int main(int argc, char* args[])
     EmbeddedImage image;
     CBitmap bitmap(image.getWidth(), image.getHeight());
     
+    PerformanceLap lap;
+    lap.start();
+    
     if (gOriginal)
     {
         for (int y = 0; y < image.getHeight(); y++)
@@ -95,6 +99,7 @@ int main(int argc, char* args[])
         for (int y = 0; y < image.getHeight(); y++)
             for (int x = 0; x < image.getWidth(); x++)
             {
+                //printf("%d, %d\n", x, y);
                 int r,g,b;
                 image.getRGB(x, y, &r, &g, &b);
                 fpga.contrast(&r);
@@ -106,4 +111,8 @@ int main(int argc, char* args[])
         bitmap.Save("test_contrast.bmp");
     }
     
+    lap.stop();
+    
+    if (gReportTime)
+        printf("Total time= %f seconds\n", lap.lap());
 }
