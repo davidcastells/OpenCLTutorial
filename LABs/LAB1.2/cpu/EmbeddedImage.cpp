@@ -23,8 +23,8 @@
  */
 
 #include "EmbeddedImage.h"
+
 /* GIMP RGB C-Source image dump (test.c) */
-#include "EmbeddedImage.h"
 
 const unsigned char GIMP_IMAGE_pixel_data[352 * 288 * 3 + 1] =
 ("\306\251\223\274\247\220\257\222\206\262\227\205\260\222\202\267\234\210\252"

@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include "../OpenCLUtils.h"
+#include "OpenCLUtils.h"
 
 
 using namespace std;
@@ -45,7 +45,8 @@ public:
     
     void contrast(int* v);
     
-    void initKernels(cl_context context, cl_platform_id platform, cl_device_id device, cl_command_queue cq, string openCLFilesPath);
+    void initKernels();
+    void finalizeKernels();
     
 private:
     int m_verbose;
@@ -56,6 +57,8 @@ public:
     string m_openCLFilesPath;
     cl_command_queue m_queue;
     cl_command_queue m_queue2;
+    cl_kernel m_contrastKernel;
+    cl_mem      m_memOutV;
 };
 
 #endif /* FPGAINTERFACE_H */

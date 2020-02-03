@@ -44,7 +44,7 @@ int parseArguments(int argc, char* args[])
 {
     for (int i=0; i < argc; i++)
     {
-        else if (strcmp(args[i], "-o") == 0)
+        if (strcmp(args[i], "-o") == 0)
         {
             gOriginal = true;
         }         
@@ -73,7 +73,7 @@ int main(int argc, char* args[])
     }
 
     EmbeddedImage image;
-    CBitmap bitmap(image->getWidth(), image->getHeight());
+    CBitmap bitmap(image.getWidth(), image.getHeight());
     
     if (gOriginal)
     {

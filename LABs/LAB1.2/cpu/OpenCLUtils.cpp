@@ -426,26 +426,26 @@ using namespace aocl_utils;
 
 char* readCodeFromFile(const char* srcFile)
 {
-	FILE *fIn = fopen(srcFile, "r");
+    FILE *fIn = fopen(srcFile, "r");
 
-        if (fIn == NULL)
-        {
-            cerr << "Failed to load file " << srcFile << endl;
-            exit(-1);
-        }
-	// Error check the fIn here
-	// get the size
-	fseek(fIn, 0L, SEEK_END);
-	size_t sz = ftell(fIn);
-	rewind(fIn);
-	int lenFileText = sizeof(char)*sz + 1;
-	char *file = (char*)malloc(lenFileText);
+    if (fIn == NULL)
+    {
+        cerr << "Failed to load file " << srcFile << endl;
+        exit(-1);
+    }
+    // Error check the fIn here
+    // get the size
+    fseek(fIn, 0L, SEEK_END);
+    size_t sz = ftell(fIn);
+    rewind(fIn);
+    int lenFileText = sizeof(char)*sz + 1;
+    char *file = (char*)malloc(lenFileText);
 
-	memset(file, 0, lenFileText);
-	fread(file, sizeof(char), sz, fIn);
-	
-	fclose(fIn);
-	return file;
+    memset(file, 0, lenFileText);
+    size_t dummy1 = fread(file, sizeof(char), sz, fIn);
+
+    fclose(fIn);
+    return file;
 }
 
 // Loads a file in binary form.
