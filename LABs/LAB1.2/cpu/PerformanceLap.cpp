@@ -51,3 +51,25 @@ double secondsBetweenLaps(uint64 t0, uint64 tf)
     return secs;
 }
 
+PerformanceLap::PerformanceLap() 
+{
+    start();
+    m_tf = 0;
+}
+
+
+void PerformanceLap::start()
+{
+    perfCounter(&m_t0);
+}
+
+void PerformanceLap::stop()
+{
+    perfCounter(&m_tf);
+}
+
+
+double PerformanceLap::lap()
+{
+    return secondsBetweenLaps(m_t0, m_tf);
+}

@@ -39,20 +39,7 @@ void perfCounter(uint64 * p64);
 
 double secondsBetweenLaps(uint64 t0, uint64 tf);
 
-/*
-typedef struct _PerformanceCounter
-{
-	uint64 t0;
-	uint64 tf;
-} PerformanceCounter;
 
-
-
-void PerformanceCounter_PerformanceCounter(PerformanceCounter* this);
-void PerformanceCounter_start(PerformanceCounter* this);
-void PerformanceCounter_stop(PerformanceCounter* this);
-double PerformanceCounter_ellapsedSeconds(PerformanceCounter* this);
-*/
 
 class PerformanceLap
 {
@@ -63,6 +50,10 @@ public:
     void stop();
     
     double lap();
+    
+private:
+    uint64 m_t0;
+    uint64 m_tf;
 };
 
 #endif /*PERFORMANCECOUNTER_H_*/
