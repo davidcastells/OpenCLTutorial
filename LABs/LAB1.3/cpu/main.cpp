@@ -124,9 +124,9 @@ int main(int argc, char* args[])
                 //printf("%d, %d\n", x, y);
                 int r,g,b;
                 image.getRGB(x, y, &r, &g, &b);
-                fpga.gamma(&r);
-                fpga.gamma(&g);
-                fpga.gamma(&b);
+                fpga.gamma(&r, nGamma);
+                fpga.gamma(&g, nGamma);
+                fpga.gamma(&b, nGamma);
                 bitmap.setRGB(x, y, r, g, b);
             }
         

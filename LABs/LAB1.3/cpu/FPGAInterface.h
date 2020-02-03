@@ -43,7 +43,7 @@ public:
     void initOpenCL();
     void notifyBuild(cl_program program);
     
-    void gamma(int* v);
+    void gamma(int* v, double gamma);
     
     void initKernels();
     void finalizeKernels();
@@ -57,7 +57,7 @@ public:
     string m_openCLFilesPath;
     cl_command_queue m_queue;
     cl_command_queue m_queue2;
-    cl_kernel m_contrastKernel;
+    cl_kernel m_gammaKernel;
     cl_mem      m_memOutV;
 };
 
