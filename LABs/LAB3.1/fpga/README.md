@@ -4,10 +4,10 @@ Median filter using our Insert Sort design
 
 
 <pre>
-@article{castells2004high,
+@inproceedings{castells2004high,
   title={High performance parallel linear sorter core design},
   author={Castells-Rufas, David and Montón, Màrius and Ribas, Lluis and Carrabina, Jordi},
-  journal={GSPx, The International Embedded Solutions Event},
+  booktitle={GSPx, The International Embedded Solutions Event},
   year={2004}
 }
 
