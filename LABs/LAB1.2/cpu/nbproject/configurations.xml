@@ -73,12 +73,13 @@
         </ccTool>
       </item>
       <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="1">
+        <ccTool flags="0">
           <incDir>
-            <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
             <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
-            <pElem>.</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
         </ccTool>
       </item>
       <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="4">
