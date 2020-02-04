@@ -276,9 +276,9 @@ cl_device_id selectDevice(cl_platform_id platform, cl_uint selected_device_index
 
 void pfn_notify(const char *errinfo, const void *private_info, size_t cb, void *user_data)
 {
-	fprintf(stderr, "[OCLFPGAJNI] OpenCL Error (via pfn_notify): %s\n", errinfo);
-        fprintf(stderr, "[OCLFPGAJNI] private info: %p\n", private_info);
-        fprintf(stderr, "[OCLFPGAJNI] user data: %p\n", user_data);
+	fprintf(stderr, "[OCLFPGA] OpenCL Error (via pfn_notify): %s\n", errinfo);
+        fprintf(stderr, "[OCLFPGA] private info: %p\n", private_info);
+        fprintf(stderr, "[OCLFPGA] user data: %p\n", user_data);
         fflush(stderr);
         
         //system("pwd");
