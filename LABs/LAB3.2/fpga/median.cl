@@ -83,60 +83,6 @@ unsigned char medianSort(unsigned char a[9])
     return medc(m0, m1, m2);
 }
 
-unsigned char oddEvenSort(unsigned char a[9])
-{
-    // step 0
-    //unsigned char s0_0 = min(a[0], a[1]);
-    unsigned char s0_1 = maxc(a[0], a[1]);
-    
-    unsigned char s0_2 = minc(a[2], a[3]);
-    unsigned char s0_3 = maxc(a[2], a[3]);
-    
-    unsigned char s0_4 = minc(a[4], a[5]);
-    unsigned char s0_5 = maxc(a[4], a[5]);
-    
-    unsigned char s0_6 = minc(a[6], a[7]);
-    unsigned char s0_7 = maxc(a[6], a[7]);
-    unsigned char s0_8 = a[8];
-    
-    // step 1
-    //unsigned char s1_0 = s0_0;
-    
-    unsigned char s1_1 = minc(s0_1, s0_2);
-    unsigned char s1_2 = maxc(s0_1, s0_2);
-    
-    unsigned char s1_3 = minc(s0_3, s0_4);
-    unsigned char s1_4 = maxc(s0_3, s0_4);
-    
-    unsigned char s1_5 = minc(s0_5, s0_6);
-    unsigned char s1_6 = maxc(s0_5, s0_6);
-    
-    unsigned char s1_7 = minc(s0_7, s0_8);
-    //unsigned char s1_8 = max(s0_7, s0_8);
-    
-    // step 2
-    //unsigned char s2_2 = min(s1_2, s1_3);
-    unsigned char s2_3 = maxc(s1_2, s1_3);
-    
-    unsigned char s2_4 = minc(s1_4, s1_5);
-    unsigned char s2_5 = maxc(s1_4, s1_5);
-    
-    unsigned char s2_6 = minc(s1_6, s1_7);
-    //unsigned char s2_7 = max(s1_6, s1_7);
-    
-    // step 3
-    unsigned char s3_3 = minc(s2_3, s2_4);
-    unsigned char s3_4 = maxc(s2_3, s2_4);
-    
-    unsigned char s3_5 = minc(s2_5, s2_6);
-    //unsigned char s3_6 = maxc(s2_5, s2_6);
-    
-    // step 4
-    unsigned char s4_4 = minc(s3_4, s3_5);
-    //unsigned char s4_5 = max(s3_4, s3_5);
-    
-    return s4_4;
-}
 
 __kernel void medianFilter(__global unsigned char* inputImage, int w, int h, __global unsigned char* outputImage)
 {
