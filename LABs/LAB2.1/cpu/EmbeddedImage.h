@@ -18,6 +18,9 @@
 #define EMBEDDEDIMAGE_H_INCLUDED_
 
 #include "Image.h"
+#include "scoped_ptrs.h"
+
+#include <memory.h>
 
 #define GIMP_IMAGE_WIDTH (352)
 #define GIMP_IMAGE_HEIGHT (288)
@@ -33,11 +36,20 @@ private:
     int w;
     int h;
     
+    unsigned char* m_data;
+    
 public:
     EmbeddedImage()
     {
         w = GIMP_IMAGE_WIDTH;
         h = GIMP_IMAGE_HEIGHT;
+        m_data = (unsigned char*) alignedMalloc(sizeof(unsigned char)*w*h*3);
+        memcpy(m_data, &GIMP_IMAGE_PIXEL_DATA[0], sizeof(unsigned char)*w*h*3);
+    }
+    
+    ~EmbeddedImage()
+    {
+        alignedFree(m_data);
     }
     
     virtual int getWidth() 
@@ -52,7 +64,8 @@ public:
     
     unsigned char* getBytes()
     {
-        return &GIMP_IMAGE_PIXEL_DATA[0];
+        //return &GIMP_IMAGE_PIXEL_DATA[0];
+        return m_data;
     }
     
     /**
@@ -60,7 +73,8 @@ public:
      */
     virtual int getRGB(int x, int y)
     {
-        unsigned char* pixel = &GIMP_IMAGE_PIXEL_DATA[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
+        //unsigned char* pixel = &GIMP_IMAGE_PIXEL_DATA[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
+        unsigned char* pixel = &m_data[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
         
         int ARGB = pixel[0] << 16 | pixel[1] << 8 | pixel[2];
         
@@ -71,7 +85,8 @@ public:
      */
      virtual void getRGB(int x, int y, int* r, int* g, int* b)
      {
-         unsigned char* pixel = &GIMP_IMAGE_PIXEL_DATA[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
+         //unsigned char* pixel = &GIMP_IMAGE_PIXEL_DATA[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
+         unsigned char* pixel = &m_data[(y*w+x)*GIMP_IMAGE_BYTES_PER_PIXEL];
         
         *r = pixel[0];
         *g = pixel[1];
