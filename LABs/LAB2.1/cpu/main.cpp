@@ -126,8 +126,9 @@ int main(int argc, char* args[])
     else if (gGammaHW)
     {
         FPGAInterface fpga;
-        lap.start();
         fpga.initOpenCL();
+        
+        lap.start();
         fpga.gammaImage(&image, &bitmap, nGamma);
         lap.stop();
         

@@ -292,7 +292,7 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     SAMPLE_CHECK_ERRORS(ret);
     
     lap.stop();
-    printf("Argument Setting= %f seconds\n", lap.lap());
+    //printf("Argument Setting= %f seconds\n", lap.lap());
     
     lap.start();
     
@@ -321,7 +321,7 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     SAMPLE_CHECK_ERRORS(ret);
     
     lap.stop();
-    printf("Restult fetch= %f seconds\n", lap.lap());
+    //printf("Restult fetch= %f seconds\n", lap.lap());
 }
 
 void FPGAInterface::finalizeKernels()
