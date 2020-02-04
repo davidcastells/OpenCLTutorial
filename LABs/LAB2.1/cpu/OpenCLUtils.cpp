@@ -24,6 +24,12 @@ void *alignedMalloc(size_t size) {
   return result;
 }
 
+//void *alignedMalloc(size_t size, unsigned int alignment) {
+//  void *result = NULL;
+//  posix_memalign (&result, alignment, size);
+//  return result;
+//}
+
 void alignedFree(void * ptr) {
   free (ptr);
 }
