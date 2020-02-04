@@ -7,6 +7,7 @@
       <in>FPGAInterface.cpp</in>
       <in>OpenCLUtils.cpp</in>
       <in>PerformanceLap.cpp</in>
+      <in>README.md</in>
       <in>main.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -73,6 +74,8 @@
       <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
         </ccTool>
+      </item>
+      <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
         <ccTool flags="0">
