@@ -24,11 +24,12 @@
 #ifndef AOCL_UTILS_SCOPED_PTRS_H
 #define AOCL_UTILS_SCOPED_PTRS_H
 
-
+#include <stdlib.h>
     
 
 // Host allocation functions
 void *alignedMalloc(size_t size);
+//void *alignedMalloc(size_t size, unsigned int aligment);
 void alignedFree(void *ptr);
 
 namespace aocl_utils {
