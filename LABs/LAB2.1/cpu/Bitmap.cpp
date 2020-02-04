@@ -39,7 +39,8 @@ CBitmap::CBitmap() : m_BitmapData(0), m_BitmapSize(0), m_Width(0), m_Height(0)
 
 CBitmap::CBitmap(int w, int h) : m_BitmapData(0), m_BitmapSize(w*h), m_Width(w), m_Height(h) 
 {
-    m_BitmapData = new BGR[m_BitmapSize];
+    //m_BitmapData = new BGR[m_BitmapSize];
+    m_BitmapData = (BGR*) alignedMalloc(sizeof(BGR) * m_BitmapSize);
 }
 
 CBitmap::CBitmap(char* Filename) : m_BitmapData(0), m_BitmapSize(0), m_Width(0), m_Height(0)	
@@ -64,14 +65,14 @@ bool CBitmap::load(char *Filename)
         return false;
     }
 
-    fread(&m_BitmapFileHeader, BITMAP_FILEHEADER_SIZE, 1, file);
+    size_t dummy = fread(&m_BitmapFileHeader, BITMAP_FILEHEADER_SIZE, 1, file);
     if (m_BitmapFileHeader.Signature != BITMAP_SIGNATURE) 
     {
         printf("ERROR: Bad signature %2X != %2X\n", m_BitmapFileHeader.Signature, BITMAP_SIGNATURE);
         return false;
     }
 
-    fread(&m_BitmapHeader, sizeof(BITMAP_HEADER), 1, file);
+    dummy = fread(&m_BitmapHeader, sizeof(BITMAP_HEADER), 1, file);
 
     if (m_BitmapHeader.BitCount != 24)
     {

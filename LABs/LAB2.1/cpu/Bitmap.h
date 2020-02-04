@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "Image.h"
+#include "scoped_ptrs.h"
 
 typedef unsigned char color;
 
@@ -141,12 +142,17 @@ public:
 	CBitmap(char* Filename);
 	virtual ~CBitmap();
 	
-	void Dispose() {
-		if (m_BitmapData) delete[] m_BitmapData;
-		m_BitmapData = 0;
-		memset(&m_BitmapFileHeader, 0, sizeof(m_BitmapFileHeader));
-		memset(&m_BitmapHeader, 0, sizeof(m_BitmapHeader));
-		m_Height = m_Width = 0;
+	void Dispose() 
+        {
+            if (m_BitmapData) 
+            {
+                alignedFree(m_BitmapData);
+                //delete[] m_BitmapData;
+            }
+            m_BitmapData = 0;
+            memset(&m_BitmapFileHeader, 0, sizeof(m_BitmapFileHeader));
+            memset(&m_BitmapHeader, 0, sizeof(m_BitmapHeader));
+            m_Height = m_Width = 0;
 	}
 	
 	/* Load specified Bitmap and stores it as RGBA in an internal buffer */
@@ -159,7 +165,8 @@ public:
 		return m_Width;
 	}
 	
-	int getHeight()  {
+	int getHeight()  
+        {
 		return m_Height;
 	}
 	

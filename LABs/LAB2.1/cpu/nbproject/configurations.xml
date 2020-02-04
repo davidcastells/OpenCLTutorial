@@ -54,27 +54,27 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Bitmap.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Bitmap.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="0">
+      <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="0">
+      <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="0">
+      <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="main.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
         </ccTool>
       </item>

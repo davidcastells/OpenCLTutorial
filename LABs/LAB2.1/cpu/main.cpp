@@ -110,26 +110,34 @@ int main(int argc, char* args[])
     CBitmap bitmap(image.getWidth(), image.getHeight());
     
     PerformanceLap lap;
-    lap.start();
+    
     
     if (gGammaSW)
     {
+        lap.start();
         doGammaImage(&image, &bitmap);
+        lap.stop();
+        
+        if (gReportTime)
+            printf("Total  time= %f seconds\n", lap.lap());
+        
         bitmap.Save("test_sw.bmp");
     }
     else if (gGammaHW)
     {
         FPGAInterface fpga;
+        lap.start();
         fpga.initOpenCL();
         fpga.gammaImage(&image, &bitmap, nGamma);
+        lap.stop();
+        
+        if (gReportTime)
+            printf("Total  time= %f seconds\n", lap.lap());
         
         bitmap.Save("test_hw.bmp");
         
         fpga.finalizeOpenCL();
     }
     
-    lap.stop();
     
-    if (gReportTime)
-        printf("Total  time= %f seconds\n", lap.lap());
 }

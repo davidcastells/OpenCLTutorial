@@ -264,6 +264,9 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     int w = image->getWidth();
     int h = image->getHeight();
     
+    PerformanceLap lap;
+    lap.start();
+    
     m_memIn = clCreateBuffer(m_context, CL_MEM_READ_WRITE, sizeof(char)*3*w*h, NULL, &ret);
     SAMPLE_CHECK_ERRORS(ret);
     
@@ -288,13 +291,15 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     ret = clSetKernelArg(m_gammaKernel, 4, sizeof(cl_mem), (void *)&m_memOut);
     SAMPLE_CHECK_ERRORS(ret);
     
+    lap.stop();
+    printf("Argument Setting= %f seconds\n", lap.lap());
+    
+    lap.start();
+    
     // send the events to the FPGA
     size_t wgSize[3] = {1, 1, 1};
     size_t gSize[3] = {1, 1, 1};
 
-    PerformanceLap lap;
-    lap.start();
-    
     ret = clEnqueueNDRangeKernel(m_queue, m_gammaKernel, 1, NULL, gSize, wgSize, 0, NULL, NULL);
     SAMPLE_CHECK_ERRORS(ret);
     
@@ -304,6 +309,8 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     lap.stop();
     printf("Kernel time= %f seconds\n", lap.lap());
     
+    lap.start();
+    
     ret = clEnqueueReadBuffer(m_queue, m_memOut, CL_TRUE, 0, sizeof(char)*3*w*h, bitmap->getBytes(), 0, NULL, NULL);
     SAMPLE_CHECK_ERRORS(ret);
     
@@ -312,6 +319,9 @@ void FPGAInterface::gammaImage(EmbeddedImage* image, CBitmap* bitmap, double gam
     
     ret = clReleaseMemObject(m_memOut);
     SAMPLE_CHECK_ERRORS(ret);
+    
+    lap.stop();
+    printf("Restult fetch= %f seconds\n", lap.lap());
 }
 
 void FPGAInterface::finalizeKernels()
