@@ -44,6 +44,45 @@ unsigned char maxc(unsigned char a, unsigned char b)
         return a;
 }
 
+unsigned char medc(unsigned char a, unsigned char b, unsigned char c)
+{
+    if (a > b)
+        if (b > c)
+            // a > b > c
+            return b;
+        else
+            // b < c
+            if (a > c)
+                // a > c > b
+                return c;
+            else
+                // c > a > b
+                return a;
+    else
+        // a < b
+        if (b > c)
+            // b > c
+            if (a > c)
+                // b > a > c 
+                return a;
+            else
+                // b > c > a 
+                return c;
+        else
+            // c > b > a
+            return b;
+                
+}
+
+unsigned char medianSort(unsigned char a[9])
+{
+    unsigned char m0 = medc(a[0], a[1], a[2]);
+    unsigned char m1 = medc(a[3], a[4], a[5]);
+    unsigned char m2 = medc(a[6], a[7], a[8]);
+    
+    return medc(m0, m1, m2);
+}
+
 unsigned char oddEvenSort(unsigned char a[9])
 {
     // step 0
@@ -131,9 +170,9 @@ __kernel void medianFilter(__global unsigned char* inputImage, int w, int h, __g
                 }
             
             unsigned char r, g, b;
-            r = oddEvenSort(ar);
-            g = oddEvenSort(ag);
-            b = oddEvenSort(ab);
+            r = medianSort(ar);
+            g = medianSort(ag);
+            b = medianSort(ab);
                     
             //image_getRGB(inputImage, w, h, x, y, &ar[4], &ag[4], &ab[4]);
             bitmap_setRGB(outputImage, w, h, x, y, r, g, b);
