@@ -44,43 +44,91 @@ unsigned char maxc(unsigned char a, unsigned char b)
         return a;
 }
 
-unsigned char medc(unsigned char a, unsigned char b, unsigned char c)
+void sort3(unsigned char a, unsigned char b, unsigned char c, unsigned char* max, unsigned char* med, unsigned char* min)
 {
     if (a > b)
+    {
         if (b > c)
+        {
             // a > b > c
-            return b;
+            *max = a;
+            *med = b;
+            *min = c;
+        }
         else
+        {
             // b < c
             if (a > c)
+            {
                 // a > c > b
-                return c;
+                *max = a;
+                *med = c;
+                *min = b;
+            }
             else
+            {
                 // c > a > b
-                return a;
+                *max = c;
+                *med = a;
+                *min = b;
+            }
+        }
+    }
     else
+    {
         // a < b
         if (b > c)
+        {
             // b > c
             if (a > c)
+            {
                 // b > a > c 
-                return a;
+                *max = b;
+                *med = a;
+                *min = c;
+            }
             else
+            {
                 // b > c > a 
-                return c;
+                *max = b;
+                *med = c;
+                *min = a;
+            }
+        }
         else
+        {
             // c > b > a
-            return b;
-                
+            *max = c;
+            *med = b;
+            *min = a;
+        }
+    }
+        
 }
 
 unsigned char medianSort(unsigned char a[9])
 {
-    unsigned char m0 = medc(a[0], a[1], a[2]);
-    unsigned char m1 = medc(a[3], a[4], a[5]);
-    unsigned char m2 = medc(a[6], a[7], a[8]);
+    unsigned char max_0_0, max_0_1, max_0_2;
+    unsigned char med_0_0, med_0_1, med_0_2;
+    unsigned char min_0_0, min_0_1, min_0_2;
     
-    return medc(m0, m1, m2);
+    sort3(a[0], a[1], a[2], &max_0_0, &med_0_0, &min_0_0);
+    sort3(a[3], a[4], a[5], &max_0_1, &med_0_1, &min_0_1);
+    sort3(a[6], a[7], a[8], &max_0_2, &med_0_2, &min_0_2);
+    
+    unsigned char max_1_0, max_1_1, max_1_2;
+    unsigned char med_1_0, med_1_1, med_1_2;
+    unsigned char min_1_0, min_1_1, min_1_2;
+    
+    sort3(max_0_0, max_0_1, max_0_2, &max_1_0, &med_1_0, &min_1_0);
+    sort3(med_0_0, med_0_1, med_0_2, &max_1_1, &med_1_1, &min_1_1);
+    sort3(min_0_0, min_0_1, min_0_2, &max_1_2, &med_1_2, &min_1_2);
+    
+    unsigned char max_2, med_2, min_2;
+    
+    sort3(min_1_0, med_1_1, max_1_2, &max_2, &med_2, &min_2);
+    
+    return med_2;
 }
 
 
@@ -93,12 +141,6 @@ __kernel void medianFilter(__global unsigned char* inputImage, int w, int h, __g
     for (int y = 0; y < h; y++)
         for (int x = 0; x < w; x++)
         {
-/*
-            resetSort(ar);
-            resetSort(ag);
-            resetSort(ab);
-*/
-            
             for (int yd = -1; yd <= 1; yd++)
                 for (int xd = -1; xd <= 1; xd++)
                 {
