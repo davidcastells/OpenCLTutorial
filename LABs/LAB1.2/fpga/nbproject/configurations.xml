@@ -4,6 +4,7 @@
     <df root="." name="0">
       <df name="cluster">
         <in>compile.sh</in>
+        <in>status.sh</in>
         <in>submit.sh</in>
       </df>
       <in>README.md</in>
@@ -44,6 +45,11 @@
         </preBuild>
       </makefileType>
       <item path="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/fpga/cluster/compile.sh"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/fpga/cluster/status.sh"
             ex="false"
             tool="3"
             flavor2="0">
