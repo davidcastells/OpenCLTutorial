@@ -19,6 +19,7 @@ void bitmap_setRGB(__global unsigned char* outputImage, int w, int h, int x, int
     outputImage[offset+2] = r;
 }
 
+#undef CHAR_MAX
 #define CHAR_MAX 255
 
 void resetSort(unsigned char a[9])
