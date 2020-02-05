@@ -1,3 +1,4 @@
+//
 __kernel void gamma(int inv, double nGamma, __global int* outv)
 {
     double dvin = inv;
