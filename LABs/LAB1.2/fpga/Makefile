@@ -7,4 +7,5 @@ early:
 	aoc -c contrast.cl
 	
 fpga:
-	aoc contrast.cl
+	#aoc contrast.cl
+	sshpass -p $(CAPAPH_PASSWORD) ssh -p $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST) -C ls
