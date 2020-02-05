@@ -116,7 +116,7 @@ unsigned char medianSort(unsigned char fifo[FIFO_SIZE])
 
 
 
-__kernel void medianFilter(__global unsigned char* inputImage, int w, int h, __global unsigned char* outputImage)
+__kernel void medianFilter(__global unsigned char* restrict inputImage, int w, int h, __global unsigned char* restrict outputImage)
 {
     unsigned char ar[9];
     unsigned char ag[9];
@@ -154,7 +154,6 @@ __kernel void medianFilter(__global unsigned char* inputImage, int w, int h, __g
         nr = medianSort(fifo_r);
         ng = medianSort(fifo_g);
         nb = medianSort(fifo_b);
-        
         bitmap_setRGB(outputImage, w, h, x, y, nr, ng, nb);
     }
 }
