@@ -7,7 +7,9 @@ and easily use it from Software.
 Then we create another simple circuit (to do Image Gamma correction) using floating point arithmetics.
 
 LAB 1.1 - Pixel contrast circuit in HDL
+
 LAB 1.2 - Pixel contrast circuit in OpenCL
+
 LAB 1.3 - Pixel Gamma correction circuit in OpenCL
 
 ## LAB 2 - Basic OpenCL Kernels
@@ -18,11 +20,18 @@ the whole image rather than pixel by pixel.
 We present the basic kernel types: pipelined kernel and NDRange.
 
 LAB 2.1 - Image gamma correction Pipelined Kernel
+
 LAB 2.2 - Image gamma correction NDRange Kernel
 
 
-## LAB 3 - OpenCL Kernels
+## LAB 3 - Optimization of OpenCL Kernels
 
-LAB 3.1 - 
-LAB 3.2 - 
+OpenCL allows to do certain optimizations. We present a new problem, the filtering of impulsive noise in images with
+the Median filter.
+
+LAB 3.1 - Median filter with parallel insert sort.
+
+LAB 3.2 - Median filter with parallel sort
+
+LAB 3.3 - Median filter with line buffer
 
