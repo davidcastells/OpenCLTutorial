@@ -1,4 +1,6 @@
+#pragma OPENCL EXTENSION cl_intel_channels : enable
 
+channel int4 median2contrast;
 
 void image_getRGB(__global unsigned char* inputImage, int w, int h, int x, int y, unsigned char* r, unsigned char* g, unsigned char* b)
 {
@@ -146,14 +148,45 @@ __kernel void medianFilter(__global unsigned char* restrict inputImage, int w, i
         fifo_g[FIFO_SIZE-1]= g;
         fifo_b[FIFO_SIZE-1]= b;
         
-        unsigned char nr, ng, nb;
+        if (i >= 0)
+        {
+            unsigned char nr, ng, nb;
+
+            int x = i % IMAGE_WIDTH;
+            int y = i / IMAGE_WIDTH;
+
+            nr = medianSort(fifo_r);
+            ng = medianSort(fifo_g);
+            nb = medianSort(fifo_b);
+
+            int4 txdata;
+            txdata.x = nr;
+            txdata.y = ng;
+            txdata.z = nb;
+
+            write_channel_intel(median2contrast, txdata);
+        }
         
+    }
+}
+
+
+__kernel void contrast(__global unsigned char* restrict inputImage, int w, int h, __global unsigned char* restrict outputImage)
+{
+    for (int i=0; i < w*h; i++)
+    {
         int x = i % IMAGE_WIDTH;
         int y = i / IMAGE_WIDTH;
+            
+        unsigned char nr, ng, nb;
         
-        nr = medianSort(fifo_r);
-        ng = medianSort(fifo_g);
-        nb = medianSort(fifo_b);
+        int4 rxdata;
+        rxdata = read_channel_intel(median2contrast);
+        
+        nr = rxdata.x;
+        ng = rxdata.y;
+        nb = rxdata.z;
+        
         bitmap_setRGB(outputImage, w, h, x, y, nr, ng, nb);
     }
 }
