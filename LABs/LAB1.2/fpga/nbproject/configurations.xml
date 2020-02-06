@@ -2,14 +2,18 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
-      <df name="cluster">
-        <in>compile.sh</in>
-        <in>status.sh</in>
-        <in>submit.sh</in>
-      </df>
       <in>README.md</in>
       <in>contrast.cl</in>
     </df>
+    <df root="." name="1">
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
+    </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
@@ -20,6 +24,7 @@
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
+    <Elem>.</Elem>
     <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -44,21 +49,6 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/fpga/cluster/compile.sh"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/fpga/cluster/status.sh"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="C:/Projects/Uab/INT_2020_CAPAPH_Tutorial/LABs/LAB1.2/fpga/cluster/submit.sh"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>
       <item path="contrast.cl" ex="false" tool="0" flavor2="0">
