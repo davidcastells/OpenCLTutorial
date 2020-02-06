@@ -27,17 +27,17 @@ bool gNoise = false;
 bool gMedianSW = false;
 bool gMedianHW = false;
 bool gReportTime = false;
-
+double nGamma = 1;
 
 
 void usage()
 {
-    printf("Usage: test_contrast [OPTIONS]...\n");
-    printf("\nCreates a bitmap with an optional gamma enhancement\n");
+    printf("Usage: test_channels [OPTIONS]...\n");
+    printf("\nCreates a bitmap with noise reduction and gamma enhancement\n");
     printf("\nOptions:\n");
     printf("  -no \tCreate the noisy image test_noisy.bmp File\n");
-    printf("  -sw \tCreate the filtered image in software test_sw.bmp File\n");
-    printf("  -hw \tCreate the filtered image in hardware test_hw.bmp File\n");
+    printf("  -sw <value>\tCreate the filtered image in software test_sw.bmp File\n");
+    printf("  -hw <value>\tCreate the filtered image in hardware test_hw.bmp File\n");
     printf("  -t\tMeasure time");
     printf("\n");
 }
@@ -59,10 +59,12 @@ int parseArguments(int argc, char* args[])
         else if (strcmp(args[i], "-sw") == 0)
         {
             gMedianSW = true;
+            nGamma = atof(args[++i]);
         }
         else if (strcmp(args[i], "-hw") == 0)
         {
             gMedianHW = true;
+            nGamma = atof(args[++i]);
         }
         else if (strcmp(args[i], "-t") == 0)
         {
@@ -118,6 +120,33 @@ void doMedianFilter(EmbeddedImage* image, CBitmap* bitmap)
             
             bitmap->setRGB(x, y, ar[4], ag[4], ab[4]);
             //bitmap->setRGB(x, y, ar[4], ag[4], ab[4]);
+        }
+}
+
+
+int doGamma(int v)
+{
+    double dvin = v;
+    double dvout = 255.0*pow(dvin/255.0, 1.0/nGamma);
+    
+    if (dvout < 0) return 0;
+    if (dvout > 255) return 255;
+    return dvout;
+}
+
+void doGammaImage(CBitmap* image)
+{
+    for (int y = 0; y < image->getHeight(); y++)
+        for (int x = 0; x < image->getWidth(); x++)
+        {
+            int r,g,b;
+            image->getRGB(x, y, &r, &g, &b);
+
+            r = doGamma(r);
+            g = doGamma(g);
+            b = doGamma(b);
+
+            image->setRGB(x, y, r, g, b);
         }
 }
 
@@ -183,6 +212,7 @@ int main(int argc, char* args[])
     {
         lap.start();
         doMedianFilter(&image, &bitmap);
+        doGammaImage(&bitmap);
         lap.stop();
         
         if (gReportTime)
@@ -196,7 +226,7 @@ int main(int argc, char* args[])
         fpga.initOpenCL();
         
         lap.start();
-        fpga.medianFilter(&image, &bitmap);
+        fpga.medianGammaFilter(&image, &bitmap, nGamma);
         lap.stop();
         
         if (gReportTime)

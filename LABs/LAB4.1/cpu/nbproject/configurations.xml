@@ -7,7 +7,6 @@
       <in>FPGAInterface.cpp</in>
       <in>OpenCLUtils.cpp</in>
       <in>PerformanceLap.cpp</in>
-      <in>README.md</in>
       <in>main.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -32,6 +31,8 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-O2"/>
+        <element flagsID="1"
+                 commonFlags="-mtune=generic -march=x86-64 -O2 -fstack-protector-strong"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -41,14 +42,6 @@
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
-          <ccTool>
-            <incDir>
-              <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
-            </incDir>
-            <preprocessorList>
-              <Elem>LINUX</Elem>
-            </preprocessorList>
-          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
@@ -56,29 +49,50 @@
         </preBuild>
       </makefileType>
       <item path="Bitmap.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="EmbeddedImage.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="FPGAInterface.cpp" ex="false" tool="1" flavor2="4">
         <ccTool flags="0">
+          <incDir>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>LINUX</Elem>
+          </preprocessorList>
         </ccTool>
       </item>
       <item path="OpenCLUtils.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include/CL</pElem>
+            <pElem>../../../../../intelFPGA/17.1/hld/host/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="PerformanceLap.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
-      <item path="README.md" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="4">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
     </conf>

@@ -14,24 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
- * Copyright (C) 2018 Universitat Autonoma de Barcelona 
- * David Castells-Rufas <david.castells@uab.cat>
- * 
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /* 
  * File:   FPGAInterface.cpp
@@ -189,7 +171,7 @@ void FPGAInterface::initKernels()
 
     int kernelCount = 0;
 
-    std::string fullPath  = m_openCLFilesPath.c_str() + std::string("/../fpga/median.aocx");
+    std::string fullPath  = m_openCLFilesPath.c_str() + std::string("/../fpga/channels.aocx");
 
 
     printf("Opening %s\n", fullPath.c_str());
@@ -248,6 +230,8 @@ void FPGAInterface::initKernels()
     m_medianKernel = clCreateKernel(program, "medianFilter", &ret);
     SAMPLE_CHECK_ERRORS(ret);
 
+    m_gammaKernel = clCreateKernel(program, "gamma", &ret);
+    SAMPLE_CHECK_ERRORS(ret);
     
         
     fflush(stderr);
@@ -257,7 +241,7 @@ void FPGAInterface::initKernels()
 }
 
 
-void FPGAInterface::medianFilter(EmbeddedImage* image, CBitmap* bitmap)
+void FPGAInterface::medianGammaFilter(EmbeddedImage* image, CBitmap* bitmap, double nGamma)
 {
     cl_int ret;
     
@@ -285,7 +269,16 @@ void FPGAInterface::medianFilter(EmbeddedImage* image, CBitmap* bitmap)
     ret = clSetKernelArg(m_medianKernel, 2, sizeof(cl_int), (void *)&h);
     SAMPLE_CHECK_ERRORS(ret);
     
-    ret = clSetKernelArg(m_medianKernel, 3, sizeof(cl_mem), (void *)&m_memOut);
+    ret = clSetKernelArg(m_gammaKernel, 0, sizeof(cl_int), (void *)&w);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clSetKernelArg(m_gammaKernel, 1, sizeof(cl_int), (void *)&h);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clSetKernelArg(m_gammaKernel, 2, sizeof(cl_double), (void *)&nGamma);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clSetKernelArg(m_gammaKernel, 3, sizeof(cl_mem), (void *)&m_memOut);
     SAMPLE_CHECK_ERRORS(ret);
     
     lap.stop();
@@ -300,7 +293,10 @@ void FPGAInterface::medianFilter(EmbeddedImage* image, CBitmap* bitmap)
     ret = clEnqueueNDRangeKernel(m_queue, m_medianKernel, 1, NULL, gSize, wgSize, 0, NULL, NULL);
     SAMPLE_CHECK_ERRORS(ret);
     
-    ret = clFinish(m_queue);
+    ret = clEnqueueNDRangeKernel(m_queue2, m_gammaKernel, 1, NULL, gSize, wgSize, 0, NULL, NULL);
+    SAMPLE_CHECK_ERRORS(ret);
+    
+    ret = clFinish(m_queue2);
     SAMPLE_CHECK_ERRORS(ret);
     
     lap.stop();
@@ -308,7 +304,7 @@ void FPGAInterface::medianFilter(EmbeddedImage* image, CBitmap* bitmap)
     
     lap.start();
     
-    ret = clEnqueueReadBuffer(m_queue, m_memOut, CL_TRUE, 0, sizeof(char)*3*w*h, bitmap->getBytes(), 0, NULL, NULL);
+    ret = clEnqueueReadBuffer(m_queue2, m_memOut, CL_TRUE, 0, sizeof(char)*3*w*h, bitmap->getBytes(), 0, NULL, NULL);
     SAMPLE_CHECK_ERRORS(ret);
     
     ret = clReleaseMemObject(m_memIn);
@@ -318,7 +314,7 @@ void FPGAInterface::medianFilter(EmbeddedImage* image, CBitmap* bitmap)
     SAMPLE_CHECK_ERRORS(ret);
     
     lap.stop();
-    //printf("Restult fetch= %f seconds\n", lap.lap());
+    printf("Restult fetch= %f seconds\n", lap.lap());
 }
 
 void FPGAInterface::finalizeKernels()
@@ -328,4 +324,6 @@ void FPGAInterface::finalizeKernels()
     ret = clReleaseKernel(m_medianKernel);
     SAMPLE_CHECK_ERRORS(ret);
 
+    ret = clReleaseKernel(m_gammaKernel);
+    SAMPLE_CHECK_ERRORS(ret);
 }

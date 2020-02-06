@@ -48,7 +48,7 @@ public:
     void notifyBuild(cl_program program);
     
     //void gamma(int* v, double gamma);
-    void medianFilter(EmbeddedImage* image, CBitmap* bitmap);
+    void medianGammaFilter(EmbeddedImage* image, CBitmap* bitmap, double nGamma);
     
     void initKernels();
     void finalizeKernels();
@@ -63,6 +63,7 @@ public:
     cl_command_queue m_queue;
     cl_command_queue m_queue2;
     cl_kernel m_medianKernel;
+    cl_kernel m_gammaKernel;
     cl_mem      m_memIn;
     cl_mem      m_memOut;
 };
