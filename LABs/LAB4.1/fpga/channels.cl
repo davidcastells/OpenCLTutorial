@@ -118,7 +118,7 @@ unsigned char medianSort(unsigned char fifo[FIFO_SIZE])
 
 
 
-__kernel void medianFilter(__global unsigned char* restrict inputImage, int w, int h, __global unsigned char* restrict outputImage)
+__kernel void medianFilter(__global unsigned char* restrict inputImage, int w, int h)
 {
     unsigned char ar[9];
     unsigned char ag[9];
@@ -130,6 +130,8 @@ __kernel void medianFilter(__global unsigned char* restrict inputImage, int w, i
     
     for (int i=-FIFO_SIZE; i < w*h; i++)
     {
+        //printf("md %d\n", i);
+        
         #pragma unroll
         for (int k=0; k < FIFO_SIZE-1; k++)
         {
@@ -170,8 +172,20 @@ __kernel void medianFilter(__global unsigned char* restrict inputImage, int w, i
     }
 }
 
+unsigned char doGamma(unsigned char inv, double nGamma)
+{
+    double dvin = inv;
+    double dvout = 255.0*pow(dvin/255.0, 1.0/nGamma);
+    
+    if (dvout < 0)
+        return 0;
+    else if (dvout > 255)
+        return 255;
+    else
+        return dvout;
+}
 
-__kernel void contrast(__global unsigned char* restrict inputImage, int w, int h, __global unsigned char* restrict outputImage)
+__kernel void gamma(int w, int h, double gamma,  __global unsigned char* restrict outputImage)
 {
     for (int i=0; i < w*h; i++)
     {
@@ -183,9 +197,9 @@ __kernel void contrast(__global unsigned char* restrict inputImage, int w, int h
         int4 rxdata;
         rxdata = read_channel_intel(median2contrast);
         
-        nr = rxdata.x;
-        ng = rxdata.y;
-        nb = rxdata.z;
+        nr = doGamma(rxdata.x, gamma);
+        ng = doGamma(rxdata.y, gamma);
+        nb = doGamma(rxdata.z, gamma);
         
         bitmap_setRGB(outputImage, w, h, x, y, nr, ng, nb);
     }
