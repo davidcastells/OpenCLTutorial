@@ -1,4 +1,4 @@
-# LAB 3.1
+# LAB 3.3
 
 Median filter using the Maheshwari approach and a Line Buffer.
 
