@@ -35,3 +35,14 @@ LAB 3.2 - Median filter with parallel sort
 
 LAB 3.3 - Median filter with line buffer
 
+## LAB 4 - Using Channels
+
+Channels are FIFO based  links that allow to communicate different kernels without using shared memory.
+
+LAB 4.1 - Median Filter + Gamma correction
+
+## LAB 5 - RTL integration
+
+Intel OpenCL framework allows to integrate blocks described in RTL.
+
+LAB 5.1 - Kernel using the contrast Verilog (RTL) module implemented in LAB 1.1
