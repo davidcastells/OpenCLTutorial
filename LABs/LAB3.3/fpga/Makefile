@@ -1,6 +1,7 @@
 all: emulator
 	
 emulator:
+	export CL_CONTEXT_EMULATOR_DEVICE_ALTERA=1
 	aoc -march=emulator -g median.cl
 	
 early:
@@ -21,4 +22,5 @@ status:
 	sshpass -p $(CAPAPH_PASSWORD) ssh -p $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST) -C LAB3.3/status.sh
 
 download:
+	unset CL_CONTEXT_EMULATOR_DEVICE_ALTERA
 	sshpass -p $(CAPAPH_PASSWORD) scp -P $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST):/home/capaph/$(CAPAPH_USER)/LAB3.3/median.aocx .
