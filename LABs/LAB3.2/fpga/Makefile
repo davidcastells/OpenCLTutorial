@@ -22,3 +22,6 @@ status:
 download:
 	unset CL_CONTEXT_EMULATOR_DEVICE_ALTERA
 	sshpass -p $(CAPAPH_PASSWORD) scp -P $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST):/home/capaph/$(CAPAPH_USER)/LAB3.2/median.aocx .
+	
+deploy:
+	sshpass -p $(CAPAPH_PASSWORD) ssh -p 4480 $(CAPAPH_USER)@mountain.cephis.uab.cat
