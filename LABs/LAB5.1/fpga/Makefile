@@ -35,4 +35,4 @@ download:
 	sshpass -p $(CAPAPH_PASSWORD) scp -P $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST):/home/capaph/$(CAPAPH_USER)/LAB5.1/contrast.aocx .
 
 deploy:
-	sshpass -p $(CAPAPH_PASSWORD) ssh -p 4480 $(CAPAPH_USER)@mountain.cephis.uab.cat
+	sshpass -p $(CAPAPH_PASSWORD) ssh -p $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_FPGA_SYSTEM)
