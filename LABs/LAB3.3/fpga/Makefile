@@ -26,4 +26,4 @@ download:
 	sshpass -p $(CAPAPH_PASSWORD) scp -P $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_HOST):/home/capaph/$(CAPAPH_USER)/LAB3.3/median.aocx .
 	
 deploy:
-	sshpass -p $(CAPAPH_PASSWORD) ssh -p 4480 $(CAPAPH_USER)@mountain.cephis.uab.cat
+	sshpass -p $(CAPAPH_PASSWORD) ssh -p $(CAPAPH_PORT) $(CAPAPH_USER)@$(CAPAPH_FPGA_SYSTEM)
